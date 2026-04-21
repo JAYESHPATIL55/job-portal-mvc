@@ -19,4 +19,4 @@ A web-based job portal application built using Java, Spring Boot, and MVC archit
 1. Clone the repository
 2. Configure database in application.properties
 3. Run Spring Boot application
-4. Access on localhost:8080
+4. Access on localhost:8085

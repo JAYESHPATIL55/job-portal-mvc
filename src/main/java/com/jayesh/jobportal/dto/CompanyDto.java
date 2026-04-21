@@ -1,0 +1,17 @@
+package com.jayesh.jobportal.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class CompanyDto {
+    private Long id;
+    @NotBlank(message = "Company name is required")
+    private String name;
+    @NotBlank(message = "Location is required")
+    private String location;
+}

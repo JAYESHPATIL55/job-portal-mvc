@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head><meta charset="UTF-8"/><title>Error — Job Portal</title>
+<link rel="stylesheet" th:href="@{/css/style.css}"/></head>
+<body>
+<nav class="navbar">
+  <div class="nav-brand">⚡ Job<span>Portal</span></div>
+  <ul class="nav-links">
+    <li><a th:href="@{/}">🏠 Home</a></li>
+    <li><a th:href="@{/jobs}">💼 Jobs</a></li>
+    <li><a th:href="@{/companies}">🏢 Companies</a></li>
+    <li><a th:href="@{/candidates}">👤 Candidates</a></li>
+    <li><a th:href="@{/applications}">📋 Applications</a></li>
+  </ul>
+</nav>
+<main class="container">
+  <div class="page-header"><h1>⚠️ Something went wrong</h1></div>
+  <div class="detail-card">
+    <div class="detail-card-header">
+      <div class="detail-icon" style="background:rgba(255,77,109,0.1);border-color:rgba(255,77,109,0.25)">⚠️</div>
+      <div><h2>Error</h2><p>An error occurred while processing your request</p></div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-row"><span class="detail-label">Message</span>
+        <span class="detail-value" style="color:var(--red)" th:text="${errorMessage}">Unknown error</span>
+      </div>
+    </div>
+    <div class="detail-footer">
+      <a th:href="@{/}" class="btn btn-primary">← Go to Dashboard</a>
+    </div>
+  </div>
+</main></body></html>

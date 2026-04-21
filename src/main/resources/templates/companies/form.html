@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head><meta charset="UTF-8"/><title>Company Form — Job Portal</title>
+<link rel="stylesheet" th:href="@{/css/style.css}"/></head>
+<body>
+<nav class="navbar">
+  <div class="nav-brand">⚡ Job<span>Portal</span></div>
+  <ul class="nav-links">
+    <li><a th:href="@{/}">🏠 Home</a></li>
+    <li><a th:href="@{/jobs}">💼 Jobs</a></li>
+    <li><a th:href="@{/companies}" class="active">🏢 Companies</a></li>
+    <li><a th:href="@{/candidates}">👤 Candidates</a></li>
+    <li><a th:href="@{/applications}">📋 Applications</a></li>
+  </ul>
+</nav>
+<main class="container">
+  <div class="page-header">
+    <div>
+      <h1 th:text="${company.id != null ? '✏️ Edit Company' : '➕ Add Company'}"></h1>
+      <div class="page-title-sub">Provide company information below</div>
+    </div>
+    <a th:href="@{/companies}" class="btn btn-secondary">← Back</a>
+  </div>
+  <div class="form-card">
+    <div class="form-card-header">
+      <h2 th:text="${company.id != null ? 'Update Company' : 'New Company'}"></h2>
+      <p>All fields are required</p>
+    </div>
+    <form th:action="${company.id != null ? '/companies/' + company.id + '/edit' : '/companies/new'}"
+          th:object="${company}" method="post">
+      <input type="hidden" th:if="${company.id != null}" th:field="*{id}"/>
+      <div class="form-body">
+        <div class="form-group">
+          <label for="name">Company Name *</label>
+          <input type="text" id="name" name="name" th:value="${company.name}"
+                 class="form-control" placeholder="e.g. Infosys Ltd" required/>
+          <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-msg"></span>
+        </div>
+        <div class="form-group">
+          <label for="location">Headquarters Location *</label>
+          <input type="text" id="location" name="location" th:value="${company.location}"
+                 class="form-control" placeholder="e.g. Hyderabad, Telangana" required/>
+          <span th:if="${#fields.hasErrors('location')}" th:errors="*{location}" class="error-msg"></span>
+        </div>
+      </div>
+      <div class="form-footer">
+        <button type="submit" class="btn btn-primary"
+                th:text="${company.id != null ? 'Update Company' : '🏢 Add Company'}"></button>
+        <a th:href="@{/companies}" class="btn btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</main></body></html>

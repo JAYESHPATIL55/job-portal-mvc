@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head><meta charset="UTF-8"/><title th:text="${company.name} + ' — Job Portal'">Company</title>
+<link rel="stylesheet" th:href="@{/css/style.css}"/></head>
+<body>
+<nav class="navbar">
+  <div class="nav-brand">⚡ Job<span>Portal</span></div>
+  <ul class="nav-links">
+    <li><a th:href="@{/}">🏠 Home</a></li>
+    <li><a th:href="@{/jobs}">💼 Jobs</a></li>
+    <li><a th:href="@{/companies}" class="active">🏢 Companies</a></li>
+    <li><a th:href="@{/candidates}">👤 Candidates</a></li>
+    <li><a th:href="@{/applications}">📋 Applications</a></li>
+  </ul>
+</nav>
+<main class="container">
+  <div class="page-header">
+    <div><h1>🏢 Company Details</h1><div class="page-title-sub">Full profile information</div></div>
+    <a th:href="@{/companies}" class="btn btn-secondary">← Back</a>
+  </div>
+  <div class="detail-card">
+    <div class="detail-card-header">
+      <div class="detail-icon">🏢</div>
+      <div><h2 th:text="${company.name}"></h2><p th:text="'📍 ' + ${company.location}"></p></div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-row"><span class="detail-label">Company ID</span><span class="detail-value" th:text="${company.id}"></span></div>
+      <div class="detail-row"><span class="detail-label">Name</span><span class="detail-value" th:text="${company.name}"></span></div>
+      <div class="detail-row"><span class="detail-label">Location</span><span class="detail-value">📍 <span th:text="${company.location}"></span></span></div>
+    </div>
+    <div class="detail-footer">
+      <a th:href="@{/companies/{id}/edit(id=${company.id})}" class="btn btn-warning">✏️ Edit</a>
+      <form th:action="@{/companies/{id}/delete(id=${company.id})}" method="post" style="display:inline"
+            onsubmit="return confirm('Delete this company?')">
+        <button type="submit" class="btn btn-danger">🗑️ Delete</button>
+      </form>
+    </div>
+  </div>
+</main></body></html>

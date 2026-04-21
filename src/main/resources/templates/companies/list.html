@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head><meta charset="UTF-8"/><title>Companies — Job Portal</title>
+<link rel="stylesheet" th:href="@{/css/style.css}"/></head>
+<body>
+<nav class="navbar">
+  <div class="nav-brand">⚡ Job<span>Portal</span></div>
+  <ul class="nav-links">
+    <li><a th:href="@{/}">🏠 Home</a></li>
+    <li><a th:href="@{/jobs}">💼 Jobs</a></li>
+    <li><a th:href="@{/companies}" class="active">🏢 Companies</a></li>
+    <li><a th:href="@{/candidates}">👤 Candidates</a></li>
+    <li><a th:href="@{/applications}">📋 Applications</a></li>
+  </ul>
+</nav>
+<main class="container">
+  <div class="page-header">
+    <div><h1>🏢 Companies</h1><div class="page-title-sub">Manage all registered companies</div></div>
+    <a th:href="@{/companies/new}" class="btn btn-primary btn-lg">＋ Add Company</a>
+  </div>
+  <div th:if="${successMessage}" class="alert alert-success">✓ <span th:text="${successMessage}"></span></div>
+  <div class="table-container">
+    <table class="table">
+      <thead><tr><th>#</th><th>Company Name</th><th>Location</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr th:each="c : ${companies}">
+          <td th:text="${c.id}"></td>
+          <td><span class="td-primary" th:text="${c.name}"></span></td>
+          <td>📍 <span th:text="${c.location}"></span></td>
+          <td class="actions">
+            <a th:href="@{/companies/{id}(id=${c.id})}" class="btn btn-sm btn-info">View</a>
+            <a th:href="@{/companies/{id}/edit(id=${c.id})}" class="btn btn-sm btn-warning">Edit</a>
+            <form th:action="@{/companies/{id}/delete(id=${c.id})}" method="post" style="display:inline"
+                  onsubmit="return confirm('Delete this company?')">
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(companies)}">
+          <td colspan="4"><div class="empty-state"><div class="empty-icon">🏢</div>
+            <p>No companies yet. <a th:href="@{/companies/new}" style="color:var(--accent)">Add one →</a></p></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination" th:if="${totalPages != null and totalPages > 1}">
+    <a th:if="${currentPage > 0}" th:href="@{/companies(page=${currentPage-1})}" class="btn btn-sm btn-secondary">← Prev</a>
+    <span>Page <strong th:text="${currentPage+1}"></strong> of <strong th:text="${totalPages}"></strong></span>
+    <a th:if="${currentPage+1 < totalPages}" th:href="@{/companies(page=${currentPage+1})}" class="btn btn-sm btn-secondary">Next →</a>
+  </div>
+</main></body></html>

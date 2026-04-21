@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head><meta charset="UTF-8"/><title>Candidates — Job Portal</title>
+<link rel="stylesheet" th:href="@{/css/style.css}"/></head>
+<body>
+<nav class="navbar">
+  <div class="nav-brand">⚡ Job<span>Portal</span></div>
+  <ul class="nav-links">
+    <li><a th:href="@{/}">🏠 Home</a></li>
+    <li><a th:href="@{/jobs}">💼 Jobs</a></li>
+    <li><a th:href="@{/companies}">🏢 Companies</a></li>
+    <li><a th:href="@{/candidates}" class="active">👤 Candidates</a></li>
+    <li><a th:href="@{/applications}">📋 Applications</a></li>
+  </ul>
+</nav>
+<main class="container">
+  <div class="page-header">
+    <div><h1>👤 Candidates</h1><div class="page-title-sub">All registered candidates</div></div>
+    <a th:href="@{/candidates/new}" class="btn btn-primary btn-lg">＋ Register Candidate</a>
+  </div>
+  <div th:if="${successMessage}" class="alert alert-success">✓ <span th:text="${successMessage}"></span></div>
+  <div class="table-container">
+    <table class="table">
+      <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Skills</th><th>Experience</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr th:each="c : ${candidates}">
+          <td th:text="${c.id}"></td>
+          <td><span class="td-primary" th:text="${c.name}"></span></td>
+          <td th:text="${c.email}"></td>
+          <td th:text="${c.skills != null ? c.skills : '—'}"></td>
+          <td>
+            <span th:if="${c.experience != null}" class="stat-chip" th:text="${c.experience} + ' yrs'"></span>
+            <span th:if="${c.experience == null}" style="color:var(--text-muted)">—</span>
+          </td>
+          <td class="actions">
+            <a th:href="@{/candidates/{id}(id=${c.id})}" class="btn btn-sm btn-info">View</a>
+            <a th:href="@{/candidates/{id}/edit(id=${c.id})}" class="btn btn-sm btn-warning">Edit</a>
+            <form th:action="@{/candidates/{id}/delete(id=${c.id})}" method="post" style="display:inline"
+                  onsubmit="return confirm('Delete this candidate?')">
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(candidates)}">
+          <td colspan="6"><div class="empty-state"><div class="empty-icon">👤</div>
+            <p>No candidates yet. <a th:href="@{/candidates/new}" style="color:var(--accent)">Register one →</a></p></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination" th:if="${totalPages != null and totalPages > 1}">
+    <a th:if="${currentPage > 0}" th:href="@{/candidates(page=${currentPage-1})}" class="btn btn-sm btn-secondary">← Prev</a>
+    <span>Page <strong th:text="${currentPage+1}"></strong> of <strong th:text="${totalPages}"></strong></span>
+    <a th:if="${currentPage+1 < totalPages}" th:href="@{/candidates(page=${currentPage+1})}" class="btn btn-sm btn-secondary">Next →</a>
+  </div>
+</main></body></html>

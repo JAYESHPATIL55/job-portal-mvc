@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Job Portal — Dashboard</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-brand">⚡ Job<span>Portal</span></div>
+  <ul class="nav-links">
+    <li><a th:href="@{/}" class="active">🏠 Home</a></li>
+    <li><a th:href="@{/jobs}">💼 Jobs</a></li>
+    <li><a th:href="@{/companies}">🏢 Companies</a></li>
+    <li><a th:href="@{/candidates}">👤 Candidates</a></li>
+    <li><a th:href="@{/applications}">📋 Applications</a></li>
+  </ul>
+</nav>
+<main class="container">
+  <div class="hero">
+    <div class="hero-eyebrow">✦ Recruitment Platform</div>
+    <h1>Find Talent.<br/>Land Careers.</h1>
+    <p>A unified platform to manage jobs, companies, candidates and applications — all in one place.</p>
+  </div>
+  <div class="dashboard-grid">
+    <a th:href="@{/jobs}" class="dashboard-card">
+      <div class="card-icon-wrap">💼</div>
+      <h2>Jobs</h2>
+      <p>Post and browse job listings with location-based search and salary info.</p>
+      <div class="card-arrow">→</div>
+    </a>
+    <a th:href="@{/companies}" class="dashboard-card">
+      <div class="card-icon-wrap">🏢</div>
+      <h2>Companies</h2>
+      <p>Register companies and link them to job openings seamlessly.</p>
+      <div class="card-arrow">→</div>
+    </a>
+    <a th:href="@{/candidates}" class="dashboard-card">
+      <div class="card-icon-wrap">👤</div>
+      <h2>Candidates</h2>
+      <p>Track candidate profiles with skills, experience, and contact info.</p>
+      <div class="card-arrow">→</div>
+    </a>
+    <a th:href="@{/applications}" class="dashboard-card">
+      <div class="card-icon-wrap">📋</div>
+      <h2>Applications</h2>
+      <p>Monitor application status from submission to final decision.</p>
+      <div class="card-arrow">→</div>
+    </a>
+  </div>
+</main>
+</body>
+</html>

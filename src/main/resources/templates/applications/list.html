@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head><meta charset="UTF-8"/><title>Applications — Job Portal</title>
+<link rel="stylesheet" th:href="@{/css/style.css}"/></head>
+<body>
+<nav class="navbar">
+  <div class="nav-brand">⚡ Job<span>Portal</span></div>
+  <ul class="nav-links">
+    <li><a th:href="@{/}">🏠 Home</a></li>
+    <li><a th:href="@{/jobs}">💼 Jobs</a></li>
+    <li><a th:href="@{/companies}">🏢 Companies</a></li>
+    <li><a th:href="@{/candidates}">👤 Candidates</a></li>
+    <li><a th:href="@{/applications}" class="active">📋 Applications</a></li>
+  </ul>
+</nav>
+<main class="container">
+  <div class="page-header">
+    <div><h1>📋 Applications</h1><div class="page-title-sub">Track all job applications and their status</div></div>
+    <a th:href="@{/applications/new}" class="btn btn-primary btn-lg">＋ New Application</a>
+  </div>
+  <div th:if="${successMessage}" class="alert alert-success">✓ <span th:text="${successMessage}"></span></div>
+  <div class="table-container">
+    <table class="table">
+      <thead><tr><th>#</th><th>Candidate</th><th>Job Title</th><th>Applied Date</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr th:each="app : ${applications}">
+          <td th:text="${app.id}"></td>
+          <td><span class="td-primary" th:text="${app.candidateName}"></span></td>
+          <td th:text="${app.jobTitle}"></td>
+          <td th:text="${app.appliedDate}"></td>
+          <td>
+            <span class="badge"
+                  th:classappend="${app.status == 'APPLIED' ? 'badge-applied' :
+                                   app.status == 'REVIEWED' ? 'badge-reviewed' :
+                                   app.status == 'REJECTED' ? 'badge-rejected' : 'badge-selected'}"
+                  th:text="${app.status}"></span>
+          </td>
+          <td class="actions">
+            <form th:action="@{/applications/{id}/delete(id=${app.id})}" method="post" style="display:inline"
+                  onsubmit="return confirm('Remove this application?')">
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(applications)}">
+          <td colspan="6"><div class="empty-state"><div class="empty-icon">📋</div>
+            <p>No applications yet. <a th:href="@{/applications/new}" style="color:var(--accent)">Submit one →</a></p></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination" th:if="${totalPages != null and totalPages > 1}">
+    <a th:if="${currentPage > 0}" th:href="@{/applications(page=${currentPage-1})}" class="btn btn-sm btn-secondary">← Prev</a>
+    <span>Page <strong th:text="${currentPage+1}"></strong> of <strong th:text="${totalPages}"></strong></span>
+    <a th:if="${currentPage+1 < totalPages}" th:href="@{/applications(page=${currentPage+1})}" class="btn btn-sm btn-secondary">Next →</a>
+  </div>
+</main></body></html>

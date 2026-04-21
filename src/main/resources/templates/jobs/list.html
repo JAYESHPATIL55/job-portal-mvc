@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Jobs — Job Portal</title><link rel="stylesheet" th:href="@{/css/style.css}"/></head>
+<body>
+<nav class="navbar">
+  <div class="nav-brand">⚡ Job<span>Portal</span></div>
+  <ul class="nav-links">
+    <li><a th:href="@{/}">🏠 Home</a></li>
+    <li><a th:href="@{/jobs}" class="active">💼 Jobs</a></li>
+    <li><a th:href="@{/companies}">🏢 Companies</a></li>
+    <li><a th:href="@{/candidates}">👤 Candidates</a></li>
+    <li><a th:href="@{/applications}">📋 Applications</a></li>
+  </ul>
+</nav>
+<main class="container">
+  <div class="page-header">
+    <div>
+      <h1>💼 Job Listings</h1>
+      <div class="page-title-sub">Browse and manage all job openings</div>
+    </div>
+    <a th:href="@{/jobs/new}" class="btn btn-primary btn-lg">＋ Post New Job</a>
+  </div>
+
+  <div class="search-bar">
+    <form th:action="@{/jobs/search}" method="get" class="search-form">
+      <div class="search-input-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" name="location" class="form-control" placeholder="Search by location…"/>
+      </div>
+      <button type="submit" class="btn btn-secondary">Search</button>
+    </form>
+  </div>
+
+  <div th:if="${successMessage}" class="alert alert-success">✓ <span th:text="${successMessage}"></span></div>
+  <div th:if="${searchLocation}" class="alert alert-info">
+    📍 Results for: <strong th:text="${searchLocation}"></strong> &nbsp;·&nbsp; <a th:href="@{/jobs}">Clear filter</a>
+  </div>
+
+  <div class="table-container">
+    <table class="table">
+      <thead><tr>
+        <th>#</th><th>Title</th><th>Company</th><th>Location</th><th>Salary</th><th>Actions</th>
+      </tr></thead>
+      <tbody>
+        <tr th:each="job : ${jobs}">
+          <td th:text="${job.id}"></td>
+          <td><span class="td-primary" th:text="${job.title}"></span></td>
+          <td th:text="${job.companyName}"></td>
+          <td>📍 <span th:text="${job.location}"></span></td>
+          <td>
+            <span class="salary-tag" th:if="${job.salary != null}">
+              ₹<span th:text="${#numbers.formatDecimal(job.salary,1,'COMMA',0,'POINT')}"></span>
+            </span>
+            <span th:if="${job.salary == null}" style="color:var(--text-muted)">—</span>
+          </td>
+          <td class="actions">
+            <a th:href="@{/jobs/{id}(id=${job.id})}" class="btn btn-sm btn-info">View</a>
+            <a th:href="@{/jobs/{id}/edit(id=${job.id})}" class="btn btn-sm btn-warning">Edit</a>
+            <form th:action="@{/jobs/{id}/delete(id=${job.id})}" method="post" style="display:inline"
+                  onsubmit="return confirm('Delete this job?')">
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(jobs)}">
+          <td colspan="6">
+            <div class="empty-state">
+              <div class="empty-icon">💼</div>
+              <p>No jobs found. <a th:href="@{/jobs/new}" style="color:var(--accent)">Post the first one →</a></p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination" th:if="${totalPages != null and totalPages > 1}">
+    <a th:if="${currentPage > 0}" th:href="@{/jobs(page=${currentPage-1},size=${size})}" class="btn btn-sm btn-secondary">← Prev</a>
+    <span>Page <strong th:text="${currentPage+1}"></strong> of <strong th:text="${totalPages}"></strong></span>
+    <a th:if="${currentPage+1 < totalPages}" th:href="@{/jobs(page=${currentPage+1},size=${size})}" class="btn btn-sm btn-secondary">Next →</a>
+  </div>
+</main>
+</body></html>
